@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
 }
 
 body {
@@ -11,22 +12,28 @@ body {
   justify-content: center;
   align-items: center;
   background: #0d0d0dea;
+  transition: all ease 250ms;
 }
 
-.login-container {
+.register-page{
+  align-items: flex-start; 
+}
+
+.form-container {
   width: 100%;
   max-width: 400px;
   padding: 20px;
 }
 
-.login-box {
+.form-box {
   background: rgba(85, 82, 82, 0.359);
   padding: 40px 30px;
   border-radius: 12px;
   text-align: center;
 }
 
-.login-box h2 {
+
+.form-box h2 {
   margin-bottom: 30px;
   color: #fdfcfc;
 }
@@ -51,8 +58,6 @@ body {
   outline: none;
   transition: 0.3s;
 }
-
-
 
 button {
   width: 100%;
@@ -79,4 +84,24 @@ button:hover {
 .signup-link a {
   color: #aaa4a4;
   font-weight: 600;
+}
+
+@media screen and (min-width: 700px){
+
+  .form-container {
+    max-width: 800px;  /* allow it to expand */
+    width: 90%;
+  }
+
+   form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  form button,
+  .signup-link { /* allow it to strech to two columns */
+    grid-column: span 2;
+  }
+
 }
