@@ -1,7 +1,7 @@
 
 // return user or null
 function getUsers(){
-    return JSON.parse(localStorage.getItem(users)) || []; 
+    return JSON.parse(localStorage.getItem("users")) || []; 
 }
 
 // save users in local storage 
@@ -31,34 +31,38 @@ const register_form = document.querySelector(".register-page form")
 if(register_form){
 
     register_form.addEventListener("submit", function(e) {
-        // prevent until input is collected 
+        
         e.preventDefault();
         
         // collecting values from user registraion 
-        const fullname = document.getElementById("fullname");
-        const username =  document.getElementById("username");
-        const email = document.getElementById("email");
-        const phone = doucment.getElementById("phone");
-        const password = doucment.getElementById("password");
-        const confirmedpassword = doucment.getElementById("confirm-password");
+        const fullname = document.getElementById("fullname").value;
+        const username =  document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const password = document.getElementById("password").value;
+        const confirmedpassword = document.getElementById("confirm-password").value;
        
         // show aproperiate messages
-        if(!isEmailValid){
+        if(!isEmailValid(email)){
             alert("Invalid email format");
+            return;
         }
-        if(!isPasswordStrong){
+        if(!isPasswordStrong(password)){
             alert("Password must be at least 8 characters, include uppercase, lowercase and a number");
+            return;
         }
         if(password != confirmedpassword){
             alert("Passwords do not match");
+            return;
         }
         
         let users = getUsers();
         
         // compare email entered with emails on local storage
-        const emailExists = users.some(user => user.email = email);
-        if(!emailExists){
+        const emailExists = users.some(user => user.email === email);
+        if(emailExists){
           alert("Email already registered");
+          return;
         }
 
         //create an object once validation is passed 
@@ -70,7 +74,9 @@ if(register_form){
             password, 
         }
         users.push(user);
-        saveUsers(user);
+        saveUsers(users);
+
+        window.location.href = "login.html";
 
     }); 
 }
@@ -82,13 +88,14 @@ if(login_form){
     login_form.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        const email = document.getElementById("email")
-        const password = document.getElementById("password")
-        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const email = document.getElementById("email").value
+        const password = document.getElementById("password").value
+        const users = getUsers();
 
         const validate_user = users.find(user => user.email == email && user.password == password);
         if(!validate_user){
             alert("Invalid email or password");
+            return;
         }
 
    });
