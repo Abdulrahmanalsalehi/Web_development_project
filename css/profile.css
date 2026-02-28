@@ -1,0 +1,106 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0d0d0dea;
+  transition: all ease 250ms;
+  line-height: 1.5;
+}
+
+/* Profile Page Layout */
+.profile-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Profile Header */
+.profile-header {
+  background-color: #373636;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  
+}
+
+.username {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.bio {
+  margin: 10px 0;
+  color: #b9c0c5;
+}
+
+.edit-btn {
+  background-color: #1da1f2;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.edit-btn:hover {
+  background-color: #0d8ddb;
+}
+
+/* Posts Section */
+.posts .post {
+  background-color: #373636;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+
+}
+
+.post-header {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  font-size: 0.9em;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.post-username {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.post-content {
+  font-size: 1em;
+  color: #ffffff;
+}
+
+.like,
+.comment {
+  background: none;      
+  border: none;                
+  cursor: pointer;   
+  filter: invert(1);
+  
+}
+
+.like,
+.comment {
+  background: none;      
+  border: none;          
+  cursor: pointer;       
+}
+
+
+
+.like:hover img,
+.comment:hover img {
+  transform: scale(1.1);  
+  transition: 0.2s ease;
+}
