@@ -6,20 +6,25 @@
   <title>User Profile</title>
   <link rel="stylesheet" href="css/profile.css">
 </head>
-<body>
-  <div class="profile-page">
+<body class="profile-page">
    
-    <header class="profile-header">
+    <header class="profile">
+
       <div class="profile-info">
+        <img src="media/profile-picture.png" class="default-pic">
         <h2 class="username">@username</h2>
         <p class="bio">This is the user bio. A short description about the user goes here.</p>
-        <button class="edit-btn">Edit Profile</button>
+        <button class="edit">Edit Profile</button>
       </div>
+
     </header>
 
     
     <section class="posts">
+
       <div class="post">
+        <img src="media/profile-picture.png" class="default-pic-post"> 
+
         <div class="post-header">
           <span class="post-username">@username</span>
           <span class="post-time">· 2h</span>
@@ -30,23 +35,12 @@
         <button class="comment"> <img src="media/message-circle.svg"></button>
       </div>
 
-
-      <div class="post">
-        <div class="post-header">
-          <span class="post-username">@username</span>
-          <span class="post-time">· 5h</span>
-        </div>
-        <p class="post-content">Another post example with text content.</p>
-      </div>
-
-      <div class="post">
-        <div class="post-header">
-          <span class="post-username">@username</span>
-          <span class="post-time">· 1d</span>
-        </div>
-        <p class="post-content">This is a longer post to show how text wraps across multiple lines.</p>
-      </div>
     </section>
-  </div>
+
+    <footer>
+
+    </footer>
+
+
 </body>
 </html>

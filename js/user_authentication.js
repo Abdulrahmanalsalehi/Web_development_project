@@ -73,6 +73,7 @@ if(register_form){
             password,
             profilePic: default_pic,
             bio: "",
+            posts: [],
         }
         users.push(user);
         saveUsers(users);
