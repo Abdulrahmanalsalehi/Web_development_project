@@ -1,4 +1,4 @@
-/* General Reset */
+
 * {
   margin: 0;
   padding: 0;
@@ -12,15 +12,12 @@ body {
   line-height: 1.5;
 }
 
-
 .profile-page {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
  
 }
-
-
 
 .profile {
   background-color: #373636;
@@ -30,8 +27,6 @@ body {
   height: 20rem;
   display: grid;
   grid-template-rows: auto auto auto;
-
-  
 }
 
 .default-pic {
@@ -41,8 +36,7 @@ body {
   width: 7rem;
 }
 
-
-.username {
+#username {
   font-size: 1.5em;
   font-weight: bold;
   color: #ffffff;
@@ -50,12 +44,12 @@ body {
   justify-self: center;
 }
 
-.bio {
+#bio {
   margin: 10px 0;
   color: #b9c0c5;
 }
 
-.edit {
+#edit,#save,#cancel {
   background-color: #636060;
   color: #fff;
   border: none;
@@ -63,13 +57,61 @@ body {
   border-radius: 20px;
   cursor: pointer;
   font-size: 0.9em;
-  margin-top: 1.5rem;
- 
+  margin-top: 1.2rem;
 }
-
-.edit:hover {
+#edit:hover,
+#save:hover,
+#cancel:hover{
   background-color: #0d8ddb;
 }
+
+
+
+#edit-window {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.window-content {
+  background: #2b2b2b;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.window-content input,
+.window-content textarea {
+  width: 100%;
+  padding: 12px;
+  border: 0.1px;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.window-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.window-content h3 {
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
 
 
 .post {

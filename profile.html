@@ -11,13 +11,37 @@
     <header class="profile">
 
       <div class="profile-info">
+
         <img src="media/profile-picture.png" class="default-pic">
-        <h2 class="username">@username</h2>
-        <p class="bio">This is the user bio. A short description about the user goes here.</p>
-        <button class="edit">Edit Profile</button>
+        <h2 id="username">@username</h2>
+        <p id="bio">This is the user bio. A short description about the user goes here.</p>
+        
+        <button id="edit">Edit Profile</button>
+
       </div>
 
+
     </header>
+
+    <div id="edit-window">
+
+        <div class="window-content">
+          <h3>Edit Profile</h3>
+
+          <input type="text" id="editFullname" placeholder="Full Name">
+          <input type="text" id="editUsername" placeholder="Username">
+          <input type="email" id="editEmail" placeholder="Email">
+          <input type="text" id="editPhone" placeholder="Phone">
+          <textarea id="editBio" placeholder="Bio"></textarea>
+
+          <div class="window-buttons">
+            <button id="save">Save</button>
+            <button id="cancel">Cancel</button>
+
+    </div>
+  </div>
+</div>
+
 
     
     <section class="posts">
@@ -40,6 +64,8 @@
     <footer>
 
     </footer>
+
+    <script src="js/script.js"></script>
 
 
 </body>
