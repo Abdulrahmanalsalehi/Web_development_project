@@ -90,16 +90,18 @@ if(login_form){
     login_form.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        const email = document.getElementById("email").value
-        const password = document.getElementById("password").value
+        const email = document.getElementById("email").value.trim()
+        const password = document.getElementById("password").value.trim()
         const users = getUsers();
 
-        const validate_user = users.find(user => user.email == email && user.password == password);
+        const validate_user = users.find(user => user.email === email && user.password === password);
         if(!validate_user){
             alert("Invalid email or password");
             return;
         }
         localStorage.setItem("currentUser", JSON.stringify(validate_user));
+        window.location.href = "home.html";
+
 
    });
 }
