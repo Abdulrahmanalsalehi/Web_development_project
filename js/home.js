@@ -1,6 +1,36 @@
 // Load users from localStorage
 const users = JSON.parse(localStorage.getItem("users")) || [];
 
+function getLoggedINtUser() {
+  return JSON.parse(localStorage.getItem("LoggedINUser"));
+}
+
+
+function loadHeaderProfile() {
+  const user = getLoggedINtUser();
+  if (!user) {
+   return;
+  }
+  
+  const posts_ount = document.getElementById("posts-count");
+  const followers_count = document.getElementById("followers-count");
+  const following_count = document.getElementById("following-count");
+  const headerPic = document.getElementById("profile-pic");
+
+  posts_ount.textContent = user.posts ? user.posts.length : 0;
+  followers_count.textContent = user.followers ? user.followers.length : 0;
+  following_count.textContent = user.following ? user.following.length : 0;
+
+  if (user.profilePic) {
+    headerPic.src = user.profilePic;
+  }
+}
+
+loadHeaderProfile();
+
+
+
+
 // Example: add a sample post to a user (in real app, this comes from user actions)
 if (users.length > 0) {
   users[0].posts.push({
@@ -34,3 +64,5 @@ users.forEach(user => {
     feed.appendChild(postElement);
   });
 });
+
+

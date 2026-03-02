@@ -74,6 +74,8 @@ if(register_form){
             profilePic: default_pic,
             bio: "",
             posts: [],
+            followers,
+            following,
         }
         users.push(user);
         saveUsers(users);
