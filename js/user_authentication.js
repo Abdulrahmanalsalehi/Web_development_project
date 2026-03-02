@@ -99,7 +99,7 @@ if(login_form){
             alert("Invalid email or password");
             return;
         }
-        localStorage.setItem("currentUser", JSON.stringify(validate_user));
+        localStorage.setItem("LoggedINUser", JSON.stringify(validate_user));
         window.location.href = "home.html";
 
 

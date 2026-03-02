@@ -11,14 +11,11 @@ body {
   transition: all ease 250ms;
   line-height: 1.5;
 }
-
 .profile-page {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
- 
 }
-
 .profile {
   background-color: #373636;
   padding: 20px;
@@ -28,14 +25,12 @@ body {
   display: grid;
   grid-template-rows: auto auto auto;
 }
-
 .default-pic {
   display: block;
   grid-row: 1;
   justify-self: center;
   width: 7rem;
 }
-
 #username {
   font-size: 1.5em;
   font-weight: bold;
@@ -43,12 +38,10 @@ body {
   grid-row: 2;
   justify-self: center;
 }
-
 #bio {
   margin: 10px 0;
   color: #b9c0c5;
 }
-
 #edit,#save,#cancel {
   background-color: #636060;
   color: #fff;
@@ -111,16 +104,12 @@ body {
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 8px;
- 
 }
-
 .default-pic-post{
   display: block;
   width: 3rem;
   margin-left: 0.8rem;
-
 }
-
 .post-header {
   display: flex;
   justify-content: flex-start;
@@ -129,34 +118,29 @@ body {
   color: #ffffff;
   margin-bottom: 8px;
 }
-
 .post-username {
   font-weight: bold;
   color: #ffffff;
-
 }
-
 .post-content {
   font-size: 1em;
   color: #ffffff;
 }
-
 .like,
 .comment {
   background: none;      
   border: none;                
   cursor: pointer;   
-  filter: invert(1);
-  
+  filter: invert(1); 
 }
-
-
 .like:hover img,
 .comment:hover img {
   transform: scale(1.1);  
   transition: 0.2s ease;
 }
 
+
+/********** profile screen footer **********/
 footer {
   position: fixed;
   bottom: 0;
@@ -166,12 +150,10 @@ footer {
   padding: 12px 0;
   box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
 }
-
 #nav-bars{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
 }
 .icon{
   width: 2rem;
@@ -198,9 +180,5 @@ footer{
   flex-direction: column;
   align-items: center;
   gap: 20px;
-
-  
 }
-
-
 }
