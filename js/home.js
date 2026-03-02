@@ -11,11 +11,15 @@ function loadHeaderProfile() {
   document.getElementById("posts-count").textContent = user.posts ? user.posts.length : 0;
   document.getElementById("followers-count").textContent = user.followers ? user.followers.length : 0;
   document.getElementById("following-count").textContent = user.following ? user.following.length : 0;
-
+  
+  if(user.username){
+     document.getElementById("username-header").textContent = user.username;
+  }
   if (user.profilePic) {
     document.getElementById("profile-pic").src = user.profilePic;
   }
 }
+
 
 function renderFeed() {
   const feed = document.getElementById("feed");
