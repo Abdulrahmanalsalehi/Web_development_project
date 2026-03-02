@@ -4,7 +4,7 @@ function getUsers(){
     return JSON.parse(localStorage.getItem("users")) || []; 
 }
 
-// save users in local storage 
+// save users in localStorage 
 function saveUsers(users){
     localStorage.setItem("users", JSON.stringify(users));
 
@@ -57,7 +57,7 @@ if(register_form){
         
         let users = getUsers();
         
-        // compare email entered with emails on local storage
+        // compare with emails on localStorage
         const emailExists = users.some(user => user.email === email);
         if(emailExists){
           alert("Email already registered");
@@ -74,8 +74,8 @@ if(register_form){
             profilePic: default_pic,
             bio: "",
             posts: [],
-            followers,
-            following,
+            followers: [],
+            following: [],
         }
         users.push(user);
         saveUsers(users);
@@ -101,7 +101,7 @@ if(login_form){
             alert("Invalid email or password");
             return;
         }
-        localStorage.setItem("LoggedINUser", JSON.stringify(validate_user));
+        localStorage.setItem("LoggedInUser", JSON.stringify(validate_user));
         window.location.href = "home.html";
 
 
