@@ -4,7 +4,7 @@ function getLoggedIntUser() {
   return JSON.parse(localStorage.getItem("LoggedInUser"));
 }
 // load home screen header for loggedInUser including,
-//  username --- |post|followers|following| --- profile-pic
+//  username --- |Fost|Followers|Following| --- profile-pic
 function loadHeaderProfile() {
   const user = getLoggedIntUser();
   if (!user) return;
@@ -39,12 +39,12 @@ no.addEventListener("click", () => {
 
 
 
-
+// function to dispaly a stream of posts
 function showFeeds() {
   const feed = document.getElementById("feed");
-  feed.innerHTML = ""; // clear old feed
+  feed.innerHTML = ""; 
 
-  // Collect all posts with user info
+  // get all posts from each user
   let allPosts = [];
   users.forEach(user => {
     if (user.posts) {
@@ -52,39 +52,48 @@ function showFeeds() {
         allPosts.push({
           ...post,
           username: user.username,
-          profilePic: user.profilePic
+          profilePic: user.profilePic,
         });
       });
     }
   });
 
-  // Sort by timestamp descending (newest first)
+  // new posts will apear at the top of the feed (descending)
   allPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-  // Render
+  // create a div for each post
   allPosts.forEach(post => {
-    const postElement = document.createElement("div");
-    postElement.classList.add("post");
-    postElement.innerHTML = `
+    const post_element = document.createElement("div");
+    post_element.classList.add("post");
+  
+    // write html structure for post here
+    post_element.innerHTML = `
       <div class="post-header">
+
         <img src="${post.profilePic}" class="default-pic-post">
         <div>
-          <div class="post-username">@${post.username}</div>
-          <div class="timestamp">${post.timestamp}</div>
+          <div class="post-username"> @${post.username} </div>
+          <div class="timestamp"> ${post.timestamp} </div>
         </div>
       </div>
-      <div class="post-content">${post.content}</div>
+
+      <div class="post-content"> ${post.content} </div>
+    
       <div class="post-actions">
-        <button class="like"><img src="media/heart.svg"></button>
-        <button class="comment"><img src="media/message-circle.svg"></button>
+        <button class="like"> 
+          <img src="media/heart.svg"> <span id="like-count"> 0 </span>
+        </button>
+        <button class="comment"> 
+          <img src="media/message-circle.svg"> <span id="comment-count"> 0 </span>
+        </button>
       </div>
     `;
-    feed.appendChild(postElement);
+    feed.appendChild(post_element);
   });
 }
 
 
-// Handle new post creation
+// collect input from user when creating a post 
 document.getElementById("post-button").addEventListener("click", () => {
   const user_input = document.getElementById("post-input");
   const content = user_input.value.trim()
@@ -96,7 +105,8 @@ document.getElementById("post-button").addEventListener("click", () => {
   if (userIndex !== -1) {
     const newPost = {
       content,
-      timestamp: new Date().toLocaleString()
+      timestamp: new Date().toLocaleString(),
+      comments: []
     };
     users[userIndex].posts.push(newPost);
 
@@ -113,6 +123,16 @@ document.getElementById("post-button").addEventListener("click", () => {
     showFeeds();
   }
 });
+
+function addComment(){
+  
+}
+
+
+
+
+
+
 
 // Initial load
 loadHeaderProfile();

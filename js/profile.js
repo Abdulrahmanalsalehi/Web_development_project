@@ -69,31 +69,3 @@ document.getElementById("save").addEventListener("click", () => {
   loadProfile();
 });
 
-const my_posts = document.getElementById("my-posts");
-
-loggedInUser.posts.array.forEach(post => {
-  const postElement = document.createElement("div");
-  postElement.classList("post")
-
-  postElement.innerHTML = `
-      <div class="post-header">
-        <img src="${loggedInUser.profilePic}" class="default-pic-post">
-        <div>
-          <div class="post-username">@${loggedInUser.username}</div>
-          <div class="timestamp">${post.timestamp}</div>
-        </div>
-      </div>
-      <div class="post-content">${post.content}</div>
-      <div class="post-actions">
-        <button class="like"><img src="media/heart.svg"></button>
-        <button class="comment"><img src="media/message-circle.svg"></button>
-      </div>
-    `;
-
-    my_posts.appendChild(postElement);
-
-  
-});
-
-
-

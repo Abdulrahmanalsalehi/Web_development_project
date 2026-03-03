@@ -233,6 +233,11 @@ body {
   transform: scale(1.1);  
   transition: 0.2s ease;
 }
+#like-count, #comment-count{
+  vertical-align: super;
+  font-weight: bold;
+  font-size: 1rem;
+}
 
 
 
@@ -250,7 +255,6 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
 }
 .icon{
   width: 2rem;
