@@ -34,7 +34,7 @@ loadProfile()
 
 const edit_window = document.getElementById("edit-window");
 
-document.getElementById("edit").addEventListener("click", () => {
+document.getElementById("edit").addEventListener("click", (e) => {
   edit_window.style.display = "flex";
 });
 

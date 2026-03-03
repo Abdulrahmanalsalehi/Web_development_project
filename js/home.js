@@ -3,7 +3,8 @@ const users = JSON.parse(localStorage.getItem("users")) || [];
 function getLoggedIntUser() {
   return JSON.parse(localStorage.getItem("LoggedInUser"));
 }
-
+// load home screen header for loggedInUser including,
+//  username --- |post|followers|following| --- profile-pic
 function loadHeaderProfile() {
   const user = getLoggedIntUser();
   if (!user) return;
@@ -20,33 +21,68 @@ function loadHeaderProfile() {
   }
 }
 
+const logout_window = document.getElementById("logout-window");
+const logout_header = document.getElementById("logout-header");
+const yes = document.getElementById("Yes");
+const no = document.getElementById("No");
 
-function renderFeed() {
+
+logout_header.addEventListener("click", () => {
+  logout_window.style.display = "flex";
+});
+yes.addEventListener("click", () => {
+  window.location.href = "login.html";
+});
+no.addEventListener("click", () => {
+  logout_window.style.display = "none";
+});
+
+
+
+
+function showFeeds() {
   const feed = document.getElementById("feed");
   feed.innerHTML = ""; // clear old feed
 
+  // Collect all posts with user info
+  let allPosts = [];
   users.forEach(user => {
-    user.posts.slice().reverse().forEach(post => {
-      const postElement = document.createElement("div");
-      postElement.classList.add("post");
-      postElement.innerHTML = `
-        <div class="post-header">
-          <img src="${user.profilePic}" class="default-pic-post">
-          <div>
-            <div class="post-username">@${user.username}</div>
-            <div class="timestamp">${post.timestamp}</div>
-          </div>
+    if (user.posts) {
+      user.posts.forEach(post => {
+        allPosts.push({
+          ...post,
+          username: user.username,
+          profilePic: user.profilePic
+        });
+      });
+    }
+  });
+
+  // Sort by timestamp descending (newest first)
+  allPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  // Render
+  allPosts.forEach(post => {
+    const postElement = document.createElement("div");
+    postElement.classList.add("post");
+    postElement.innerHTML = `
+      <div class="post-header">
+        <img src="${post.profilePic}" class="default-pic-post">
+        <div>
+          <div class="post-username">@${post.username}</div>
+          <div class="timestamp">${post.timestamp}</div>
         </div>
-        <div class="post-content">${post.content}</div>
-        <div class="post-actions">
-          <button class="like"><img src="media/heart.svg"></button>
-          <button class="comment"><img src="media/message-circle.svg"></button>
-        </div>
-      `;
-      feed.appendChild(postElement);
-    });
+      </div>
+      <div class="post-content">${post.content}</div>
+      <div class="post-actions">
+        <button class="like"><img src="media/heart.svg"></button>
+        <button class="comment"><img src="media/message-circle.svg"></button>
+      </div>
+    `;
+    feed.appendChild(postElement);
   });
 }
+
 
 // Handle new post creation
 document.getElementById("post-button").addEventListener("click", () => {
@@ -74,10 +110,10 @@ document.getElementById("post-button").addEventListener("click", () => {
 
     // Refresh header stats and feed
     loadHeaderProfile();
-    renderFeed();
+    showFeeds();
   }
 });
 
 // Initial load
 loadHeaderProfile();
-renderFeed();
+showFeeds();

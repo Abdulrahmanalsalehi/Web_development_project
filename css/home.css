@@ -80,17 +80,59 @@ body {
 }
 
 /********* top right of home screen *********/
+
 #logout-header img{
   width: 2rem;
   filter: invert(1);
   position: fixed;
   right: 20px;
   top: 20px;
+  cursor: pointer;
 }
 #logout-header img:hover {
   transform: scale(1.1);  
   transition: 0.2s ease;
 }
+#logout-window {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+#logout-popup {
+  background: #2b2b2b;
+  padding: 40px;
+  border-radius: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#logout-popup p{
+  text-align: center;
+  font-weight: bold;
+  color: #ffffff;
+}
+#buttons {
+  display: flex;
+  justify-content: space-around;
+}
+#Yes, #No{
+  background-color: #636060;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-top: 1.2rem;
+}
+#Yes:hover, #No:hover{
+  background-color: #0d8ddb;
+}
+
 
 
 /********* create post styling *********/
@@ -131,8 +173,6 @@ body {
 
 
 
-
-
 /********* feed styling *********/
 #feed {
   display: flex;
@@ -146,6 +186,7 @@ body {
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 8px;
+  cursor: pointer;
 }
 .default-pic-post {
   display: block;
