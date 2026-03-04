@@ -82,16 +82,28 @@ function showFeeds() {
     
       <div class="post-actions">
         <button class="like"> 
-          <img src="media/heart.svg"> <span id="like-count"> 0 </span>
+          <img src="media/heart.svg"> 
+          <span class="like-count"> ${post.likes ? post.likes.length : 0} </span>
         </button>
         <button class="comment"> 
-          <img src="media/message-circle.svg"> <span class="comment-count"> 0 </span>
+          <img src="media/message-circle.svg"> 
+          <span class="comment-count"> ${post.comments.length}</span>
         </button>
       </div>
     `;
     feed.appendChild(post_element);
+
     post_element.addEventListener("click", () => {
     openPost(post); });
+
+    const like_button = post_element.querySelector(".like");
+    const like_count = post_element.querySelector(".like-count");
+
+    like_button.addEventListener("click", (e) =>{
+      e.stopPropagation(); // ---> prevent post window from showing
+      showLikes(post, like_count);
+    });
+
   });
 
 }
@@ -126,6 +138,49 @@ document.getElementById("post-button").addEventListener("click", () => {
     showFeeds();
   }
 });
+
+function showLikes(post, like_count){
+  const loggedUser = getLoggedIntUser();
+   if (!content) return;
+
+  const postOwnerIndex = users.findIndex(u => u.username === post.username);
+       if (postOwnerIndex === -1) return;
+
+  // 2. Find post
+  const postIndex = users[postOwnerIndex].posts.findIndex(
+    p => p.timestamp === post.timestamp
+  );
+  if (postIndex === -1) return;
+
+  const realPost = users[postOwnerIndex].posts[postIndex];
+
+  if (!realPost.likes) {
+    realPost.likes = [];
+  }
+
+  const userLikeIndex = realPost.likes.indexOf(loggedUser.username);
+
+  if (userLikeIndex === -1) {
+    realPost.likes.push(loggedUser.username);
+  } else {
+    realPost.likes.splice(userLikeIndex, 1);
+  }
+
+  // Update local post object
+  post.likes = realPost.likes;
+
+  // Save
+  localStorage.setItem("users", JSON.stringify(users));
+
+  // Update UI
+  like_count.textContent = realPost.likes.length;
+
+}
+
+
+
+
+
 
 function openPost(post){
 
