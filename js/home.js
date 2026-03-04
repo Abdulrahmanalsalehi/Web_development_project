@@ -27,6 +27,7 @@ const yes = document.getElementById("Yes");
 const no = document.getElementById("No");
 
 
+
 logout_header.addEventListener("click", () => {
   logout_window.style.display = "flex";
 });
@@ -72,7 +73,7 @@ function showFeeds() {
 
         <img src="${post.profilePic}" class="default-pic-post">
         <div>
-          <div class="post-username"> @${post.username} </div>
+          <div class="post-username"> ${post.username} </div>
           <div class="timestamp"> ${post.timestamp} </div>
         </div>
       </div>
@@ -84,12 +85,15 @@ function showFeeds() {
           <img src="media/heart.svg"> <span id="like-count"> 0 </span>
         </button>
         <button class="comment"> 
-          <img src="media/message-circle.svg"> <span id="comment-count"> 0 </span>
+          <img src="media/message-circle.svg"> <span class="comment-count"> 0 </span>
         </button>
       </div>
     `;
     feed.appendChild(post_element);
+    post_element.addEventListener("click", () => {
+    openPost(post); });
   });
+
 }
 
 
@@ -110,9 +114,8 @@ document.getElementById("post-button").addEventListener("click", () => {
     };
     users[userIndex].posts.push(newPost);
 
-    // update localStorage for everone
+    
     localStorage.setItem("users", JSON.stringify(users));
-    // update localStorage for the loggedInUser
     localStorage.setItem("LoggedInUser", JSON.stringify(users[userIndex]))
 
     // Clear input
@@ -124,10 +127,102 @@ document.getElementById("post-button").addEventListener("click", () => {
   }
 });
 
-function addComment(){
-  
+function openPost(post){
+
+  document.getElementById("detail-profile-pic").src = post.profilePic;
+  document.getElementById("detail-username").textContent = post.username;
+  document.getElementById("detail-timestamp").textContent = post.timestamp;
+  document.getElementById("detail-content").textContent = post.content;
+  document.getElementById("comment-count").textContent = post.comments ? post.comments.length : 0;
+
+  const post_window = document.getElementById("post-window");
+  post_window.style.display = "flex";
+
+  // Back button
+  document.getElementById("arrow-back").onclick = () => {
+    post_window.style.display = "none";
+  };
+
+  // Toggle comments
+  document.getElementById("detail-comment").onclick = () => {
+    const section = document.getElementById("comments-section");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+    renderComments(post);
+  };
+
+  // Add comment
+  document.getElementById("comment-button").onclick = () => {
+    addComment(post);
+  };
 }
 
+function renderComments(post){
+  const comments_list = document.getElementById("comments-list");
+  comments_list.innerHTML = "";
+
+  if(post.comments && post.comments.length > 0){
+    post.comments.forEach(comment => {
+      const comment_element = document.createElement("div");
+      comment_element.classList.add("comment-box");
+      comment_element.innerHTML = `
+        <div class="comment-header">
+          <img src="${comment.profilePic}" class="default-pic-post">
+          <div>
+            <div class="post-username">${comment.username}</div>
+            <div class="timestamp">${comment.timestamp}</div>
+          </div>
+        </div>
+        <div class="comment-content">${comment.content}</div>
+      `;
+      comments_list.appendChild(comment_element);
+    });
+  }
+}
+
+function addComment(post){
+  const input = document.getElementById("comment-input");
+  const content = input.value.trim();
+  if (!content) return;
+
+  const loggedUser = getLoggedIntUser();
+  
+  // 1. Find the OWNER of the post in the users array
+  const postOwnerIndex = users.findIndex(u => u.username === post.username);
+  
+  if (postOwnerIndex !== -1) {
+    // 2. Find the specific post in that user's posts array
+    const postIndex = users[postOwnerIndex].posts.findIndex(p => p.timestamp === post.timestamp);
+
+    if (postIndex !== -1) {
+      const newComment = {
+        content: content,
+        timestamp: new Date().toLocaleString(),
+        username: loggedUser.username,
+        profilePic: loggedUser.profilePic
+      };
+
+      // 3. Push the comment to the correct user's post
+      if (!users[postOwnerIndex].posts[postIndex].comments) {
+        users[postOwnerIndex].posts[postIndex].comments = [];
+      }
+      
+      users[postOwnerIndex].posts[postIndex].comments.push(newComment);
+
+      // 4. Update the local 'post' object so the UI refreshes immediately
+      post.comments = users[postOwnerIndex].posts[postIndex].comments;
+
+      // 5. Save to localStorage
+      localStorage.setItem("users", JSON.stringify(users));
+
+      // Clear input and refresh UI
+      input.value = "";
+      renderComments(post);
+      document.getElementById("comment-count").textContent = post.comments.length;
+    }
+  }
+
+
+}
 
 
 
