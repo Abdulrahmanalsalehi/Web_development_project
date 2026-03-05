@@ -37,7 +37,6 @@ body {
   flex-direction: column;
   position: absolute;
   left: 10px;
-  
 }
 #profile-pic{
   width: 50px;
@@ -50,7 +49,9 @@ body {
   color: #fff;
   font-weight: bold;
   margin-left: 1rem;
+  cursor: pointer;
 }
+
 
 
 /********* center of home screen *********/
@@ -206,6 +207,7 @@ body {
   font-weight: bold;
   color: #ffffff;
 }
+
 .timestamp {
   font-size: 0.8em;
   color: #bbbbbb;
@@ -236,7 +238,11 @@ body {
 }
 .like:hover img,
 .comment:hover img,
-#arrow-back:hover img {
+#arrow-back:hover img,
+.post-username:hover,
+.default-pic-post:hover,
+#username-header:hover,
+#profile-pic:hover {
   transform: scale(1.1);  
   transition: 0.2s ease;
 }

@@ -66,6 +66,7 @@ if(register_form){
 
         //create an object once validation is passed 
         const user = {
+            id: Date.now(),
             fullname,
             username,
             email,

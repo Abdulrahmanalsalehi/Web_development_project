@@ -21,13 +21,20 @@ function loadHeaderProfile() {
   }
 }
 
+// *********** Redirect when clicking on some elements in the app header ***********
 const logout_window = document.getElementById("logout-window");
 const logout_header = document.getElementById("logout-header");
 const yes = document.getElementById("Yes");
 const no = document.getElementById("No");
+const username = document.getElementById("username-header");
+const profile_pic = document.getElementById("profile-pic");
 
-
-
+profile_pic.addEventListener("click", () => {
+  window.location.href = "profile.html"
+});
+username.addEventListener("click", () => {
+  window.location.href = "profile.html";
+});
 logout_header.addEventListener("click", () => {
   logout_window.style.display = "flex";
 });
@@ -40,11 +47,10 @@ no.addEventListener("click", () => {
 
 
 
-// function to dispaly a stream of posts
+// *********** function to dispaly a stream of posts ***********
 function showFeeds() {
   const feed = document.getElementById("feed");
   feed.innerHTML = ""; 
-
   // get all posts from each user
   let allPosts = [];
   users.forEach(user => {
@@ -58,15 +64,12 @@ function showFeeds() {
       });
     }
   });
-
-  // new posts will apear at the top of the feed (descending)
+  // new posts will apear at the top of the feed 
   allPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
   // create a div for each post
   allPosts.forEach(post => {
     const post_element = document.createElement("div");
     post_element.classList.add("post");
-  
     // write html structure for post here
     post_element.innerHTML = `
       <div class="post-header">
@@ -94,18 +97,28 @@ function showFeeds() {
     feed.appendChild(post_element);
 
     post_element.addEventListener("click", () => {
-    openPost(post); });
-
+    openPost(post); }); // allow the user to see the post in more details
+   
+    const username = post_element.querySelector(".post-username")
+    const pic = post_element.querySelector(".default-pic-post")
     const like_button = post_element.querySelector(".like");
     const like_count = post_element.querySelector(".like-count");
 
+    username.addEventListener("click", (e) => {
+      e.stopPropagation(); // ---> prevent post window from showing
+      window.location.href = "profile.html";
+    });
+     pic.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.location.href = "profile.html";
+    });
     like_button.addEventListener("click", (e) =>{
       e.stopPropagation(); // ---> prevent post window from showing
       showLikes(post, like_count);
     });
 
-  });
 
+  });
 }
 
 
@@ -141,7 +154,7 @@ document.getElementById("post-button").addEventListener("click", () => {
 
 function showLikes(post, like_count){
   const loggedUser = getLoggedIntUser();
-   if (!content) return;
+   if (!loggedUser) return;
 
   const postOwnerIndex = users.findIndex(u => u.username === post.username);
        if (postOwnerIndex === -1) return;
@@ -193,15 +206,18 @@ function openPost(post){
   const post_window = document.getElementById("post-window");
   post_window.style.display = "flex";
 
-  // Back button
   document.getElementById("arrow-back").onclick = () => {
     post_window.style.display = "none";
   };
-
-  // Toggle comments
+  document.getElementById("detail-like").onclick = () => {
+    const like_count = document.getElementById("like-count");
+    showLikes(post, like_count);
+  };
+  
   document.getElementById("detail-comment").onclick = () => {
     const section = document.getElementById("comments-section");
-    section.style.display = section.style.display === "none" ? "block" : "none";
+    const currentDisplay = window.getComputedStyle(section).display;
+    section.style.display = section.style.display =currentDisplay === "none" ? "block" : "none";
     renderComments(post);
   };
 
@@ -209,7 +225,10 @@ function openPost(post){
   document.getElementById("comment-button").onclick = () => {
     addComment(post);
   };
+  
 }
+
+
 
 function renderComments(post){
   const comments_list = document.getElementById("comments-list");
@@ -275,6 +294,9 @@ function addComment(post){
       document.getElementById("comment-count").textContent = post.comments.length;
     }
   }
+
+  showFeeds();  // keeps feed counts in sync
+
 
 
 }
