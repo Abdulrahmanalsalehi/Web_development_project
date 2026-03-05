@@ -362,8 +362,8 @@ function loadProfile() {
 
   if (document.getElementById("bio"))
     document.getElementById("bio").textContent = user.bio || "This is my bio";
-
 }
+
 
 
 function showUserPosts() {
