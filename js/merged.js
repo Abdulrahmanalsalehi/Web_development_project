@@ -1,29 +1,26 @@
-/*************** STORAGE HELPERS ***************/
+/*********************** functions to deal with storage ***********************/
 function loadUsers() {
   return JSON.parse(localStorage.getItem("users")) || [];
 }
-
 function saveUsers(users) {
   localStorage.setItem("users", JSON.stringify(users));
 }
-
 function getLoggedIntUser() {
   return JSON.parse(localStorage.getItem("LoggedInUser"));
 }
-
 function setLoggedIntUser(user) {
   localStorage.setItem("LoggedInUser", JSON.stringify(user));
 }
-
 let users = loadUsers();
 
 
-/*************** HEADER PROFILE ***************/
+/*********************** home page header ***********************/
 function loadHeaderProfile() {
 
   const user = getLoggedIntUser();
-  if (!user) return;
-
+  if (!user)
+    return;
+   
   const posts = document.getElementById("posts-count");
   const followers = document.getElementById("followers-count");
   const following = document.getElementById("following-count");
@@ -33,7 +30,7 @@ function loadHeaderProfile() {
 
   if (followers)
     followers.textContent = user.followers ? user.followers.length : 0;
-
+    
   if (following)
     following.textContent = user.following ? user.following.length : 0;
 
@@ -46,7 +43,7 @@ function loadHeaderProfile() {
 }
 
 
-/*************** LOGOUT WINDOW ***************/
+/*********************** logout option ***********************/
 const logout_window = document.getElementById("logout-window");
 const logout_header = document.getElementById("logout-header");
 const yes = document.getElementById("Yes");
@@ -69,7 +66,7 @@ if (no)
   });
 
 
-/*************** PROFILE REDIRECT ***************/
+/*********************** redirect to user profile  ***********************/
 const usernameHeader = document.getElementById("username-header");
 const profilePicHeader = document.getElementById("profile-pic");
 
@@ -84,7 +81,7 @@ if (profilePicHeader)
   });
 
 
-/*************** HOME FEED ***************/
+/*********************** display main feed  ***********************/
 function showFeeds() {
 
   const feed = document.getElementById("feed");
@@ -148,11 +145,13 @@ function showFeeds() {
 
     username.addEventListener("click", (e) => {
       e.stopPropagation();
+      localStorage.setItem("viewUser", post.username);
       window.location.href = "profile.html";
     });
 
     pic.addEventListener("click", (e) => {
       e.stopPropagation();
+      localStorage.setItem("viewUser", post.username);
       window.location.href = "profile.html";
     });
 
@@ -166,15 +165,16 @@ function showFeeds() {
 }
 
 
-/*************** CREATE POST ***************/
-const postBtn = document.getElementById("post-button");
+/*********************** create post  ***********************/
+const post_button = document.getElementById("post-button");
 
-if (postBtn) {
-  postBtn.addEventListener("click", () => {
+if (post_button) {
+  post_button.addEventListener("click", () => {
 
     const input = document.getElementById("post-input");
     const content = input.value.trim();
-    if (!content) return;
+    if (!content) 
+      return;
 
     const loggedUser = getLoggedIntUser();
     const userIndex = users.findIndex(u => u.username === loggedUser.username);
@@ -199,7 +199,7 @@ if (postBtn) {
 }
 
 
-/*************** LIKE SYSTEM ***************/
+/*********************** like funtionality  ***********************/
 function toggleLike(post, likeCount) {
 
   const loggedUser = getLoggedIntUser();
@@ -210,7 +210,8 @@ function toggleLike(post, likeCount) {
 
   const realPost = users[ownerIndex].posts[postIndex];
 
-  if (!realPost.likes) realPost.likes = [];
+  if (!realPost.likes) 
+    realPost.likes = [];
 
   const likeIndex = realPost.likes.indexOf(loggedUser.username);
 
@@ -232,7 +233,7 @@ function toggleLike(post, likeCount) {
 }
 
 
-/*************** POST DETAILS POPUP ***************/
+/*********************** show post in details  ***********************/
 function openPost(post) {
 
   const windowBox = document.getElementById("post-window");
@@ -273,7 +274,7 @@ function openPost(post) {
 }
 
 
-/*************** COMMENTS ***************/
+/*********************** display comments  ***********************/
 function renderComments(post) {
 
   const list = document.getElementById("comments-list");
@@ -304,6 +305,7 @@ function renderComments(post) {
 
 }
 
+/*********************** add comment to a post  ***********************/
 
 function addComment(post) {
 
@@ -341,11 +343,13 @@ function addComment(post) {
 }
 
 
-/*************** PROFILE PAGE ***************/
+/*********************** load profile page  ***********************/
 function loadProfile() {
 
-  const user = getLoggedIntUser();
-  if (!user) return;
+  const viewUsername = localStorage.getItem("viewUser");
+  const user = users.find(u => u.username === viewUsername) || getLoggedIntUser();
+  if (!user) 
+    return;
 
   if (document.getElementById("editFullname"))
     document.getElementById("editFullname").value = user.fullname;
@@ -369,16 +373,32 @@ function loadProfile() {
     document.getElementById("bio").textContent = user.bio || "This is my bio";
 }
 
-function editProfile(){
-  const edit_window = document.getElementById("edit-window");
 
-  document.getElementById("edit").addEventListener("click", (e) => {
+/*********************** edit profile for loggeduser  ***********************/
+function editProfile(){
+ const edit_window = document.getElementById("edit-window");
+  const loggedUser = getLoggedIntUser();
+  const viewUsername = localStorage.getItem("viewUser");
+  const user = users.find(u => u.username === viewUsername) || loggedUser;
+
+  const editBtn = document.getElementById("edit");
+
+  // Show/hide the edit button depending on whose profile it is
+  if (user.username === loggedUser.username) {
+    editBtn.style.display = "block";
+  } else {
+    editBtn.style.display = "none";
+  }
+
+  // Only allow opening edit window if it's your own profile
+  editBtn.addEventListener("click", () => {
     edit_window.style.display = "flex";
   });
 
   document.getElementById("cancel").addEventListener("click", () => {
     edit_window.style.display = "none";
   });
+
 
 
   document.getElementById("save").addEventListener("click", () => {
@@ -412,6 +432,7 @@ function editProfile(){
 
 
 
+/*********************** show the loggeduser posts  ***********************/
 function showUserPosts() {
 
   const feed = document.getElementById("my-posts");
@@ -419,13 +440,20 @@ function showUserPosts() {
 
   feed.innerHTML = "";
 
-  const loggedUser = users.find(u => u.username === getLoggedIntUser().username);
-  if (!loggedUser.posts) return;
+   // Get the user whose profile we are viewing
+  const viewUsername = localStorage.getItem("viewUser");
+  const loggedUser = getLoggedIntUser();
+  const user = users.find(u => u.username === viewUsername) || loggedUser;
 
-  let userPosts = loggedUser.posts.map(post => ({
+  if (!user.posts) return;
+
+  if (document.getElementById("my-posts-heading"))
+    document.getElementById("my-posts-heading").textContent = `${user.username}'s posts`;
+
+  let userPosts = user.posts.map(post => ({
     ...post,
-    username: loggedUser.username,
-    profilePic: loggedUser.profilePic
+    username: user.username,
+    profilePic: user.profilePic
   }));
 
   userPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -463,32 +491,22 @@ function showUserPosts() {
 
     post_element.addEventListener("click", () => openPost(post));
 
-    const username = post_element.querySelector(".post-username");
-    const pic = post_element.querySelector(".default-pic-post");
-    const likeBtn = post_element.querySelector(".like");
-    const likeCount = post_element.querySelector(".like-count");
+    const like_button = post_element.querySelector(".like");
+    const like_coutn = post_element.querySelector(".like-count");
 
-    username.addEventListener("click", (e) => {
+    
+    like_button.addEventListener("click", (e) => {
       e.stopPropagation();
-      window.location.href = "profile.html";
-    });
-
-    pic.addEventListener("click", (e) => {
-      e.stopPropagation();
-      window.location.href = "profile.html";
-    });
-
-    likeBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleLike(post, likeCount);
+      toggleLike(post, like_coutn);
     });
 
   });
 
+
 }
 
 
-/*************** INITIAL LOAD ***************/
+/*********************** load everthing  ***********************/
 loadHeaderProfile();
 showFeeds();
 loadProfile();

@@ -124,13 +124,15 @@ body {
   color: #ffffff;
 }
 
-.my-posts-heading{
+#my-posts-heading{
   margin-top: 5rem;
   font-weight: bold;
   color: #ffffff;
   margin-bottom: 1rem;
   margin-left: 2.5rem;
 }
+
+
 #my-posts{
   display: flex;
   flex-direction: column;
