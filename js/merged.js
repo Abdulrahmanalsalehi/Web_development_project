@@ -42,6 +42,7 @@ function loadHeaderProfile() {
 
   if (document.getElementById("profile-pic") && user.profilePic)
     document.getElementById("profile-pic").src = user.profilePic;
+
 }
 
 
@@ -225,6 +226,9 @@ function toggleLike(post, likeCount) {
   if (likeCount)
     likeCount.textContent = realPost.likes.length;
 
+  showFeeds();
+  showUserPosts();
+
 }
 
 
@@ -333,6 +337,7 @@ function addComment(post) {
   document.getElementById("comment-count").textContent = post.comments.length;
 
   showFeeds();
+  showUserPosts();
 }
 
 
@@ -364,6 +369,47 @@ function loadProfile() {
     document.getElementById("bio").textContent = user.bio || "This is my bio";
 }
 
+function editProfile(){
+  const edit_window = document.getElementById("edit-window");
+
+  document.getElementById("edit").addEventListener("click", (e) => {
+    edit_window.style.display = "flex";
+  });
+
+  document.getElementById("cancel").addEventListener("click", () => {
+    edit_window.style.display = "none";
+  });
+
+
+  document.getElementById("save").addEventListener("click", () => {
+    let users = loadUsers();
+    let loggedInUser = getLoggedIntUser();
+
+    const updatedUser = {
+      ...loggedInUser,
+      fullname: document.getElementById("editFullname").value.trim(),
+      username: document.getElementById("editUsername").value.trim(),
+      email: document.getElementById("editEmail").value.trim(),
+      phone: document.getElementById("editPhone").value.trim(),
+      bio: document.getElementById("editBio").value.trim(),
+    };
+
+    // Update in users array
+    users = users.map(user =>
+      user.id === loggedInUser.id ? updatedUser : user
+    );
+
+    saveUsers(users);
+    setLoggedIntUser(updatedUser);
+
+    edit_window.style.display = "none";
+    loadProfile();
+  });
+
+}
+
+
+
 
 
 function showUserPosts() {
@@ -373,7 +419,7 @@ function showUserPosts() {
 
   feed.innerHTML = "";
 
-  const loggedUser = getLoggedIntUser();
+  const loggedUser = users.find(u => u.username === getLoggedIntUser().username);
   if (!loggedUser.posts) return;
 
   let userPosts = loggedUser.posts.map(post => ({
@@ -399,11 +445,43 @@ function showUserPosts() {
       </div>
 
       <div class="post-content">${post.content}</div>
+
+       <div class="post-actions">
+        <button class="like">
+          <img src="media/heart.svg">
+          <span class="like-count">${post.likes ? post.likes.length : 0}</span>
+        </button>
+
+        <button class="comment">
+          <img src="media/message-circle.svg">
+          <span class="comment-count">${post.comments ? post.comments.length : 0}</span>
+        </button>
+      </div>
     `;
 
     feed.appendChild(post_element);
 
     post_element.addEventListener("click", () => openPost(post));
+
+    const username = post_element.querySelector(".post-username");
+    const pic = post_element.querySelector(".default-pic-post");
+    const likeBtn = post_element.querySelector(".like");
+    const likeCount = post_element.querySelector(".like-count");
+
+    username.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.location.href = "profile.html";
+    });
+
+    pic.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.location.href = "profile.html";
+    });
+
+    likeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleLike(post, likeCount);
+    });
 
   });
 
@@ -414,4 +492,5 @@ function showUserPosts() {
 loadHeaderProfile();
 showFeeds();
 loadProfile();
+editProfile();
 showUserPosts();

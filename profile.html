@@ -61,13 +61,61 @@
   </div>
 </div>
 
-
+    <p class="my-posts-heading"> My posts </p>
     
     <section>
-
       <div id="my-posts"></div>
-
     </section>
+
+    <section>
+    <div id="post-window">
+
+      <div id="post-window-content">
+
+        <div id="arrow-back">
+          <img src="media/chevron-left.svg">
+        </div>
+
+        <div class="post-header">
+          <img id="detail-profile-pic" class="default-pic-post">
+          <div>
+            <div id="detail-username" class="post-username"></div>
+            <div id="detail-timestamp" class="timestamp"></div>
+          </div>
+        </div>
+
+        <div id="detail-content" class="box-inside-window"></div>
+
+        <div class="post-actions">
+          <button id="detail-like" class="like"> 
+            <img src="media/heart.svg"> 
+            <span id="like-count">0</span>
+          </button>
+          <button id="detail-comment" class="comment"> 
+            <img src="media/message-circle.svg"> 
+            <span id="comment-count">0</span>
+          </button>
+        </div>
+
+        <div id="comments-section">
+          <p class="comments-title">Comments</p>
+
+            <div id="comments-list"></div>
+
+            <div class="add-comment">
+                <textarea id="comment-input" placeholder="Write a comment..."></textarea>
+                <button id="comment-button">Reply</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+
+
+
 
     <footer>
       <nav id="nav-bars">

@@ -124,8 +124,20 @@ body {
   color: #ffffff;
 }
 
-
-
+.my-posts-heading{
+  margin-top: 5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+}
+#my-posts{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 .post {
   background-color: #373636;
   padding: 15px;
@@ -149,9 +161,18 @@ body {
   font-weight: bold;
   color: #ffffff;
 }
+.timestamp {
+  font-size: 0.8em;
+  color: #bbbbbb;
+}
 .post-content {
   font-size: 1em;
   color: #ffffff;
+}
+.post-actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 .like,
 .comment {
@@ -165,7 +186,12 @@ body {
   transform: scale(1.1);  
   transition: 0.2s ease;
 }
-
+.like-count,
+.comment-count{
+  font-weight: bold;
+  font-size: 1rem;
+  vertical-align: super;
+}
 
 /********** profile screen footer **********/
 footer {
