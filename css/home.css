@@ -44,6 +44,7 @@ body {
   border-radius: 50%;
   cursor: pointer;
   margin-left: 1.8rem;
+  margin-top: 3px;
 }
 #username-header{
   color: #fff;
