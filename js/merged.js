@@ -371,6 +371,8 @@ function loadProfile() {
 
   if (document.getElementById("bio"))
     document.getElementById("bio").textContent = user.bio || "This is my bio";
+
+  
 }
 
 
@@ -381,17 +383,20 @@ function editProfile(){
   const viewUsername = localStorage.getItem("viewUser");
   const user = users.find(u => u.username === viewUsername) || loggedUser;
 
-  const editBtn = document.getElementById("edit");
+  const edit_Button = document.getElementById("edit");
+  const follow_button = document.getElementById("follow-button");
 
   // Show/hide the edit button depending on whose profile it is
   if (user.username === loggedUser.username) {
-    editBtn.style.display = "block";
+    edit_Button.style.display = "block";
+    follow_button.style.display = "none";
   } else {
-    editBtn.style.display = "none";
+    edit_Button.style.display = "none";
+    follow_button.style.display = "block";
   }
 
   // Only allow opening edit window if it's your own profile
-  editBtn.addEventListener("click", () => {
+  edit_Button.addEventListener("click", () => {
     edit_window.style.display = "flex";
   });
 
@@ -500,12 +505,90 @@ function showUserPosts() {
       toggleLike(post, like_coutn);
     });
 
-    
-
   });
 
+}
+
+function followUser() {
+  const loggedUser = getLoggedIntUser();
+  const viewUsername = localStorage.getItem("viewUser");
+
+  if (!viewUsername || viewUsername === loggedUser.username) return;
+
+  // Load fresh users array
+  let users = loadUsers();
+
+  // Get references to objects inside the users array
+  const viewedIndex = users.findIndex(u => u.username === viewUsername);
+  const loggedIndex = users.findIndex(u => u.username === loggedUser.username);
+
+  if (viewedIndex === -1 || loggedIndex === -1) return;
+
+  const viewedUser = users[viewedIndex];
+  const currentUser = users[loggedIndex];
+
+  // Ensure arrays exist
+  if (!viewedUser.followers) viewedUser.followers = [];
+  if (!currentUser.following) currentUser.following = [];
+
+  const isFollowing = viewedUser.followers.includes(loggedUser.username);
+
+  if (isFollowing) {
+    // Unfollow
+    viewedUser.followers = viewedUser.followers.filter(u => u !== loggedUser.username);
+    currentUser.following = currentUser.following.filter(u => u !== viewUsername);
+  } else {
+    // Follow
+    viewedUser.followers.push(loggedUser.username);
+    currentUser.following.push(viewUsername);
+  }
+
+  // Save updated users array
+  saveUsers(users);
+
+  // Update logged-in user in localStorage
+  setLoggedIntUser(currentUser);
+
+  // Update UI
+  updateFollowButton(); // changes Follow/Unfollow text
+  loadHeaderProfile();  // updates logged-in user's following count
+  loadProfile();        // updates viewed user's followers count
+}
+
+
+function updateFollowButton() {
+
+  const btn = document.getElementById("follow-button");
+  if (!btn) return;
+  
+  const users = loadUsers();
+
+  const viewUsername = localStorage.getItem("viewUser");
+  const loggedUser = getLoggedIntUser();
+
+  if (!viewUsername || viewUsername === loggedUser.username) {
+    btn.style.display = "none";
+    return;
+  }
+
+  const viewedUser = users.find(u => u.username === viewUsername);
+
+  const isFollowing = viewedUser.followers &&
+    viewedUser.followers.includes(loggedUser.username);
+
+  btn.textContent = isFollowing ? "Unfollow" : "Follow";
+
+  btn.onclick = followUser;
 
 }
+
+
+
+
+
+
+
+
 
 
 /*********************** load everthing  ***********************/
@@ -514,3 +597,4 @@ showFeeds();
 loadProfile();
 editProfile();
 showUserPosts();
+updateFollowButton();
